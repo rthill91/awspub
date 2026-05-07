@@ -36,6 +36,62 @@ Install awspub using snap
 This will install the latest version in your machine. We would highly recommend you install the latest version, but
 refer to this `Snapcraft channel doc`_ for installing a different version or from a specific channel.
 
+Use awspub with Docker
+----------------------
+
+Build the container image from the project root:
+
+.. code-block:: shell
+
+        docker build -t awspub .
+
+Run ``awspub`` from the container. The examples below mount:
+
+* your AWS configuration from ``$HOME/.aws`` to ``/root/.aws``
+* your current working directory to ``/work``
+
+Show help:
+
+.. code-block:: shell
+
+        docker run --rm \
+            -v "$HOME/.aws:/root/.aws:ro" \
+            -v "$PWD:/work" \
+            awspub --help
+
+List images from a config file:
+
+.. code-block:: shell
+
+        docker run --rm \
+            -v "$HOME/.aws:/root/.aws:ro" \
+            -v "$PWD:/work" \
+            awspub list config.yaml
+
+Create and publish images:
+
+.. code-block:: shell
+
+        docker run --rm \
+            -v "$HOME/.aws:/root/.aws:ro" \
+            -v "$PWD:/work" \
+            awspub create config.yaml
+
+        docker run --rm \
+            -v "$HOME/.aws:/root/.aws:ro" \
+            -v "$PWD:/work" \
+            awspub publish config.yaml
+
+To use a non-default AWS profile, pass ``AWS_PROFILE``:
+
+.. code-block:: shell
+
+        docker run --rm \
+            -e AWS_PROFILE=my-profile \
+            -v "$HOME/.aws:/root/.aws:ro" \
+            -v "$PWD:/work" \
+            awspub list config.yaml
+
 CLI usage
 ---------
 
